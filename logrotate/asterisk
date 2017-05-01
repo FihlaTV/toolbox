@@ -1,0 +1,31 @@
+/var/log/asterisk/queue_log {
+        daily
+        missingok
+        # Customization: increase log retention time from the default 30 days to 60 days
+        #rotate 30
+        rotate 60
+        notifempty
+        sharedscripts
+        create 0640 asterisk asterisk
+}
+/var/spool/mail/asterisk
+/var/log/asterisk/freepbx_debug.log
+/var/log/asterisk/messages
+/var/log/asterisk/event_log
+/var/log/asterisk/full
+/var/log/asterisk/dtmf
+/var/log/asterisk/fail2ban {
+        daily
+        missingok
+        # Customization: increase log retention time from the default 7 days to 60 days
+        #rotate 7
+        rotate 60
+        # Customization: compress log files to save disk space
+        compress
+        notifempty
+        sharedscripts
+        create 0640 asterisk asterisk
+        postrotate
+        /usr/sbin/asterisk -rx 'logger reload' > /dev/null 2> /dev/null
+        endscript
+}
